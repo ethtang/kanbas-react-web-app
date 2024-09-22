@@ -8,6 +8,7 @@ export default function Labs() {
   return (
     <div id="wd-labs">
       <h3>Ethan Tang</h3>
+      <h3>CS 4550 Section 01</h3>
       <h1>Labs</h1>
       <TOC />
       <Routes>
