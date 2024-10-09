@@ -45,6 +45,7 @@ export default function Dashboard() {
           </div>
 
           <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+          <div className="card rounded-3 overflow-hidden">
             <div className="wd-dashboard-course1">
               <Link className="wd-dashboard-course-link text-decoration-none text-dark"
                 to="/Kanbas/Courses/1234/Home">
@@ -60,9 +61,12 @@ export default function Dashboard() {
                 </div>
               </Link>
             </div>
+            </div>
           </div>
 
+
           <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+          <div className="card rounded-3 overflow-hidden">
             <div className="wd-dashboard-course1">
               <Link className="wd-dashboard-course-link text-decoration-none text-dark"
                 to="/Kanbas/Courses/1234/Home">
@@ -79,8 +83,10 @@ export default function Dashboard() {
               </Link>
             </div>
           </div>
+          </div>
 
           <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+          <div className="card rounded-3 overflow-hidden">
             <div className="wd-dashboard-course1">
               <Link className="wd-dashboard-course-link text-decoration-none text-dark"
                 to="/Kanbas/Courses/1234/Home">
@@ -97,8 +103,10 @@ export default function Dashboard() {
               </Link>
             </div>
           </div>
+          </div>
 
           <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+          <div className="card rounded-3 overflow-hidden">
             <div className="wd-dashboard-course1">
               <Link className="wd-dashboard-course-link text-decoration-none text-dark"
                 to="/Kanbas/Courses/1234/Home">
@@ -115,8 +123,10 @@ export default function Dashboard() {
               </Link>
             </div>
           </div>
+          </div>
 
           <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+          <div className="card rounded-3 overflow-hidden">
             <div className="wd-dashboard-course1">
               <Link className="wd-dashboard-course-link text-decoration-none text-dark"
                 to="/Kanbas/Courses/1234/Home">
@@ -133,8 +143,10 @@ export default function Dashboard() {
               </Link>
             </div>
           </div>
+          </div>
 
           <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+          <div className="card rounded-3 overflow-hidden">
             <div className="wd-dashboard-course1">
               <Link className="wd-dashboard-course-link text-decoration-none text-dark"
                 to="/Kanbas/Courses/1234/Home">
@@ -150,6 +162,7 @@ export default function Dashboard() {
                 </div>
               </Link>
             </div>
+          </div>
           </div>
 
         </div>
