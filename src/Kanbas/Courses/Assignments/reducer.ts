@@ -1,4 +1,3 @@
-/*
 import { createSlice } from "@reduxjs/toolkit";
 import { assignments } from "../../Database";
 const initialState = {
@@ -36,4 +35,3 @@ const assignmentsSlice = createSlice({
 export const { addAssignment, deleteAssignment, updateAssignment, editAssignment } =
 assignmentsSlice.actions;
 export default assignmentsSlice.reducer;
-*/
