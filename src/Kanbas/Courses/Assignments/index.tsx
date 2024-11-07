@@ -4,12 +4,12 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState } from "react";
 import { deleteAssignment } from "./reducer";
-import assignmentReducer from "./reducer";
+// import assignmentReducer from "./reducer";
 
 export default function Assignments() {
 
   const { cid } = useParams();
-  const [assignmentName, setAssignmentName] = useState("");
+  // const [assignmentName, setAssignmentName] = useState("");
   const { assignments } = useSelector((state: any) => state.assignmentReducer)
   const dispatch = useDispatch();
   const navigate = useNavigate();
