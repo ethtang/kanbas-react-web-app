@@ -1,113 +1,164 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import * as db from "../../Database";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  addAssignment, deleteAssignment, updateAssignment, editAssignment, cancelAssignmentUpdate
+} from "./reducer";
 
 export default function AssignmentEditor() {
   const { aid, cid } = useParams();
-  const assignment = db.assignments.find(
-    (assignment) => assignment._id === aid);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isNewAssignment = !aid || aid.trim() === '';
+  const { assignments } = useSelector((state: any) => state.assignmentReducer);
+  const currentAssignment = assignments.find((assignment: any) => assignment._id === aid);
 
-  if (!assignment) {
+  const handleSave = () => {
+    if (isNewAssignment) {
+      const newAssignment = { ...currentAssignment, _id: new Date().getTime().toString(), course: cid };
+      console.log(newAssignment);
+      dispatch(updateAssignment(newAssignment));
+      dispatch(addAssignment(newAssignment));
+    } else {
+      dispatch(updateAssignment(currentAssignment));
+    }
+    navigate(`/Kanbas/Courses/${cid}/Assignments`);
+  };
+
+  if (!currentAssignment) {
     return <div>Assignment not available</div>;
   }
 
   return (
     <div id="wd-assignments-editor">
-      <label htmlFor="wd-name"><h3>Assignment Name</h3></label>
-      <br />
-      <input id="wd-name" value={assignment.title} style={{ width: "480px" }} /><br /><br />
+      {assignments
+        .filter((assignment: any) => assignment._id === aid)
+        .map((assignment: any) => (
+          <>
+            <label htmlFor="wd-name"><h3>Assignment Name</h3></label>
+            <br />
 
-      <textarea id="wd-description" value={assignment.description} style={{ width: "480px", height: "200px" }}/>
-      <br /><br />
+            <input
+              id="wd-name"
+              value={assignment.title}
+              onChange={(e: { target: { value: any; }; }) =>
+                dispatch(updateAssignment({ ...assignment, name: e.target.value }))
+              }
+              style={{ width: "480px" }}
+            />
+            <br /><br />
 
-      <table>
-        <tbody>
-          <tr>
-            <td align="right" valign="top">
-              <label htmlFor="wd-points">Points</label>
-            </td>
-            <td>
-              <input id="wd-points" value={assignment.points} />
-            </td>
-          </tr>
+            <textarea
+              id="wd-description"
+              value={assignment.description}
+              onChange={(e) =>
+                dispatch(updateAssignment({ ...assignment, description: e.target.value }))
+              }
+              style={{ width: "480px", height: "200px" }}
+            />
+            <br /><br />
 
-          <tr>
-            <td align="right" valign="top">
-              <label htmlFor="wd-group">Assignment Group</label>
-            </td>
-            <td>
-              <select id="wd-group" defaultValue="all">
-                <option value="all">ASSIGNMENTS</option>
-              </select>
-            </td>
-          </tr>
+            <table>
+              <tbody>
+                <tr>
+                  <td align="right" valign="top">
+                    <label htmlFor="wd-points">Points</label>
+                  </td>
+                  <td>
+                    <input
+                      id="wd-points"
+                      value={assignment.points}
+                      onChange={(e) =>
+                        dispatch(updateAssignment({ ...assignment, points: e.target.value }))
+                      }
+                    />
+                  </td>
+                </tr>
 
-          <tr>
-            <td align="right" valign="top">
-              <label htmlFor="wd-display-grade-as">Display Grade as</label>
-            </td>
-            <td>
-              <select id="wd-display-grade-as" defaultValue="Percentage">
-                <option value="percentage">Percentage</option>
-              </select>
-            </td>
-          </tr>
+                <tr>
+                  <td align="right" valign="top">
+                    <label htmlFor="wd-group">Assignment Group</label>
+                  </td>
+                  <td>
+                    <select id="wd-group" defaultValue="all">
+                      <option value="all">ASSIGNMENTS</option>
+                    </select>
+                  </td>
+                </tr>
 
-          <tr>
-            <td align="right" valign="top">
-              <label htmlFor="wd-submission-type">Submission Type</label>
-            </td>
-            <td>
-              <select id="wd-submission-type" defaultValue="Online">
-                <option value="online">Online</option>
-              </select>
-            </td>
-          </tr>
+                <tr>
+                  <td align="right" valign="top">
+                    <label htmlFor="wd-display-grade-as">Display Grade as</label>
+                  </td>
+                  <td>
+                    <select id="wd-display-grade-as" defaultValue="Percentage">
+                      <option value="percentage">Percentage</option>
+                    </select>
+                  </td>
+                </tr>
 
-          <tr>
-            <td align="right" valign="top">
-              <label htmlFor="wd-assign-to">Assign to</label>
-            </td>
-            <td>
-              <input id="wd-assign-to" value="Everyone" />
-            </td>
-          </tr>
+                <tr>
+                  <td align="right" valign="top">
+                    <label htmlFor="wd-submission-type">Submission Type</label>
+                  </td>
+                  <td>
+                    <select id="wd-submission-type" defaultValue="Online">
+                      <option value="online">Online</option>
+                    </select>
+                  </td>
+                </tr>
 
-          <tr>
-            <td align="right" valign="top">
-              <label htmlFor="wd-due-date">Due</label>
-            </td>
-            <td>
-              <input type="date" id="wd-due-date" value={assignment.dueDate} />
-            </td>
-          </tr>
+                <tr>
+                  <td align="right" valign="top">
+                    <label htmlFor="wd-assign-to">Assign to</label>
+                  </td>
+                  <td>
+                    <input id="wd-assign-to" value="Everyone" />
+                  </td>
+                </tr>
 
-          <tr>
-            <td align="right" valign="top">
-              <label htmlFor="wd-available-from">Available from</label>
-            </td>
-            <td>
-              <input type="date" id="wd-available-from" value={assignment.availableFrom} />
-            </td>
-            <td>
-              <label htmlFor="wd-available-until">Until</label>
-            </td>
-            <td>
-              <input type="date" id="wd-available-until" value={assignment.availableUntil} />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                <tr>
+                  <td align="right" valign="top">
+                    <label htmlFor="wd-due-date">Due</label>
+                  </td>
+                  <td>
+                    <input
+                      type="date"
+                      id="wd-due-date"
+                      value={assignment.dueDate}
+                      onChange={(e) =>
+                        dispatch(updateAssignment({ ...assignment, dueDate: e.target.value }))
+                      }
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
 
-      <br /><br />
-      <div>
-        <Link to={`/Kanbas/Courses/${cid}/Assignments`} 
-        className="btn btn-secondary" style={{ marginLeft: "340px" }}>Cancel</Link>
-        <button className="btn btn-danger" style={{ marginLeft: "5px" }}>
-          Save
-        </button>
-      </div>
+            <br /><br />
+            <div>
+              <Link
+                to={`/Kanbas/Courses/${cid}/Assignments`}
+                className="btn btn-secondary"
+                style={{ marginLeft: "340px" }}
+                onClick={() => dispatch(cancelAssignmentUpdate(assignment))}
+              >
+                Cancel
+              </Link>
+              <button
+                className="btn btn-danger"
+                style={{ marginLeft: "5px" }}
+                onClick={handleSave}
+              >
+                Save
+              </button>
+            </div>
+          </>
+        ))}
     </div>
   );
+
 }
 
 /*
